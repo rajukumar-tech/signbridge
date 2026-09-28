@@ -1,0 +1,15 @@
+# SignBridge training pipeline
+# Install PyTorch first if you want the CPU-only wheel (much smaller):
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch>=2.2
+numpy>=1.24,<3
+# Legacy `mp.solutions.holistic` API is used (matches the browser frontend).
+# Newer mediapipe releases have been dropping the legacy solutions API, so pin a known-good range.
+mediapipe>=0.10.14,<0.10.22
+opencv-python>=4.8
+onnx>=1.15
+onnxruntime>=1.17
+onnxscript>=0.1   # needed by torch>=2.5 ONNX exporter internals
+scikit-learn>=1.3
+tqdm>=4.66
+matplotlib>=3.8

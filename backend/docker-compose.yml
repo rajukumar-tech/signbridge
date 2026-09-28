@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: signbridge
+      POSTGRES_PASSWORD: signbridge
+      POSTGRES_DB: signbridge
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U signbridge -d signbridge"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://signbridge:signbridge@db:5432/signbridge
+      JWT_SECRET: ${JWT_SECRET:-change-me-to-a-long-random-string-32b+}
+      CORS_ORIGINS: http://localhost:3000,http://localhost:8000
+      REVIEWER_EMAILS: ${REVIEWER_EMAILS:-}
+      SEED_ON_STARTUP: "true"
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:

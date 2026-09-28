@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Local config and databases
+.env
+*.db
+
+# Training outputs (regenerate with the scripts in training/)
+training/data/
+training/runs/
+training/export/
