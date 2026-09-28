@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Log in · SignBridge</title>
+<link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+<main class="card">
+  <a class="brand" href="index.html">Sign<span>Bridge</span></a>
+  <h1>Welcome back</h1>
+  <p class="sub">Log in to save your practice scores and contribute signs.</p>
+
+  <form id="form" novalidate>
+    <div id="error" class="error hidden" role="alert"></div>
+    <label>Email
+      <input type="email" id="email" autocomplete="email" required />
+    </label>
+    <label>Password
+      <div class="pw">
+        <input type="password" id="password" autocomplete="current-password" required />
+        <button type="button" id="toggle" aria-label="Show password">Show</button>
+      </div>
+    </label>
+    <button type="submit" id="submit">Log in</button>
+  </form>
+
+  <p class="switch">New to SignBridge? <a href="signup.html">Create an account</a></p>
+</main>
+
+<script type="module">
+import { login } from "./auth.js";
+
+const $ = (id) => document.getElementById(id);
+$("toggle").onclick = () => {
+  const show = $("password").type === "password";
+  $("password").type = show ? "text" : "password";
+  $("toggle").textContent = show ? "Hide" : "Show";
+};
+
+$("form").onsubmit = async (e) => {
+  e.preventDefault();
+  $("error").classList.add("hidden");
+  const email = $("email").value.trim(), password = $("password").value;
+  if (!email || !password) return showError("Enter your email and password.");
+  $("submit").disabled = true; $("submit").textContent = "Logging in…";
+  try {
+    await login(email, password);
+    location.href = "index.html";
+  } catch (err) {
+    showError(err.message);
+    $("submit").disabled = false; $("submit").textContent = "Log in";
+  }
+};
+
+function showError(msg) { $("error").textContent = msg; $("error").classList.remove("hidden"); }
+</script>
+</body>
+</html>

@@ -23,7 +23,7 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://signbridge:signbridge@db:5432/signbridge
       JWT_SECRET: ${JWT_SECRET:-change-me-to-a-long-random-string-32b+}
-      CORS_ORIGINS: http://localhost:3000,http://localhost:8000
+      CORS_ORIGINS: http://localhost:3000,http://localhost:5173,http://localhost:8000
       REVIEWER_EMAILS: ${REVIEWER_EMAILS:-}
       SEED_ON_STARTUP: "true"
     ports:

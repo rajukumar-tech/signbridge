@@ -23,6 +23,8 @@ Open http://localhost:5173 in Chrome or Edge. The camera works on `localhost` wi
 4. **Text → Sign** tab: type `hello thank_you` and press Play to see the recorded signs replayed as an animated hand.
 5. **Practice** tab: the app names a word; sign it within 5 seconds.
 
+**Accounts (optional):** the demo works without logging in. To try **Sign up** / **Log in** (top right), also start the backend on port 8000. See [backend/README.md](backend/README.md). The pages are `demo/signup.html` and `demo/login.html`, and they call the API at `http://localhost:8000` (set in `demo/auth.js`).
+
 Demo tips: use good front lighting and keep both hands in frame. Teach signs that look clearly different. Record each word 2–3 times, from slightly different positions. **Export dataset** saves what you taught, so you can re-import it on the presentation laptop.
 
 The demo uses a per-user k-NN classifier so it can learn from a few seconds of data. The full project replaces it with the LSTM/Transformer from `training/`, exported to ONNX and run with onnxruntime-web.

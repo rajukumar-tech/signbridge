@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sign up · SignBridge</title>
+<link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+<main class="card">
+  <a class="brand" href="index.html">Sign<span>Bridge</span></a>
+  <h1>Create your account</h1>
+  <p class="sub">Learn ISL with practice mode, or help grow the vocabulary.</p>
+
+  <form id="form" novalidate>
+    <div id="error" class="error hidden" role="alert"></div>
+    <label>Name
+      <input type="text" id="name" autocomplete="name" maxlength="100" />
+    </label>
+    <label>Email
+      <input type="email" id="email" autocomplete="email" required />
+    </label>
+    <label>Password
+      <div class="pw">
+        <input type="password" id="password" autocomplete="new-password" minlength="8" required />
+        <button type="button" id="toggle" aria-label="Show password">Show</button>
+      </div>
+      <span class="hint">At least 8 characters.</span>
+    </label>
+    <label>Confirm password
+      <input type="password" id="confirm" autocomplete="new-password" required />
+    </label>
+    <label>I want to
+      <select id="role">
+        <option value="learner">Learn and practise ISL</option>
+        <option value="contributor">Contribute signs to the dataset</option>
+      </select>
+    </label>
+    <button type="submit" id="submit">Create account</button>
+  </form>
+
+  <p class="switch">Already have an account? <a href="login.html">Log in</a></p>
+</main>
+
+<script type="module">
+import { signup } from "./auth.js";
+
+const $ = (id) => document.getElementById(id);
+$("toggle").onclick = () => {
+  const show = $("password").type === "password";
+  $("password").type = show ? "text" : "password";
+  $("toggle").textContent = show ? "Hide" : "Show";
+};
+
+$("form").onsubmit = async (e) => {
+  e.preventDefault();
+  $("error").classList.add("hidden");
+  const email = $("email").value.trim(), password = $("password").value;
+  if (!email) return showError("Enter your email address.");
+  if (password.length < 8) return showError("Password must be at least 8 characters.");
+  if (password !== $("confirm").value) return showError("Passwords don't match.");
+  $("submit").disabled = true; $("submit").textContent = "Creating account…";
+  try {
+    await signup({ email, password, display_name: $("name").value.trim(), role: $("role").value });
+    location.href = "index.html";
+  } catch (err) {
+    showError(err.message);
+    $("submit").disabled = false; $("submit").textContent = "Create account";
+  }
+};
+
+function showError(msg) { $("error").textContent = msg; $("error").classList.remove("hidden"); }
+</script>
+</body>
+</html>

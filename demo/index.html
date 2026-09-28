@@ -16,6 +16,11 @@
   header h1 span { color: var(--accent); }
   header .tag { color: var(--muted); font-size: 13px; }
   #status { margin-left: auto; font-size: 13px; color: var(--muted); }
+  .account { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+  .account a { color: var(--text); text-decoration: none; padding: 6px 10px; border-radius: 8px; }
+  .account a.primary-link { background: var(--accent); color: #1a0e05; font-weight: 600; }
+  .account button { padding: 6px 10px; }
+  @media (max-width: 600px) { header { flex-wrap: wrap; } #status { order: 3; width: 100%; margin: 0; } .account { margin-left: auto; } }
   main { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; padding: 16px 20px; }
   @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
   .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
@@ -53,6 +58,7 @@
   <h1>Sign<span>Bridge</span></h1>
   <div class="tag">Indian Sign Language ⇄ text &amp; speech, fully in-browser</div>
   <div id="status">Loading hand tracker…</div>
+  <nav id="account" class="account"></nav>
 </header>
 
 <main>
@@ -115,6 +121,9 @@
 
 <script type="module">
 import { FilesetResolver, HandLandmarker, DrawingUtils } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
+import { renderAccount } from "./auth.js";
+
+renderAccount(document.getElementById("account"));
 
 const $ = (id) => document.getElementById(id);
 const video = $("video"), overlay = $("overlay"), octx = overlay.getContext("2d");

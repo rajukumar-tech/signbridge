@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     jwt_secret: str = "dev-insecure-secret-change-me-please-32b+"
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 60
-    cors_origins: str = "http://localhost:3000,http://localhost:8000"
+    cors_origins: str = "http://localhost:3000,http://localhost:5173,http://localhost:8000"
     reviewer_emails: str = ""
     seed_on_startup: bool = True
 
